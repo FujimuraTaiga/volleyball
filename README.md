@@ -1,6 +1,6 @@
 # volleyball
 
-application for sit volleyball club
+所属するバレー部向けのアプリです。試合動画を共有します。
 
 ## Getting Started
 
