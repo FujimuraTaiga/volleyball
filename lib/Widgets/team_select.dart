@@ -37,7 +37,7 @@ class _TeamSelectState extends State<TeamSelect> {
               );
             }).toList()
           ),
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             label: Text('team'),
             border: OutlineInputBorder(),
           ),

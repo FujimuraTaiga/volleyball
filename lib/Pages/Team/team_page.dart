@@ -27,7 +27,7 @@ class TeamPage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         IconButton(
-          icon: Icon(Icons.add),
+          icon: const Icon(Icons.add),
           onPressed: (){
             Navigator.push(
               context,
@@ -52,12 +52,12 @@ class TeamPage extends StatelessWidget {
               return InkWell(
                 onTap: () => Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => TeamForm(doc: doc,))
+                  MaterialPageRoute(builder: (context) => const TeamForm())
                 ),
                 child: Card(
                   child: Text(
                     team.name!,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 20,
                     ),
                   ),

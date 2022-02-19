@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:sit_volleyball_app/Widgets/normal_alert_dialog.dart';
 import '/Widgets/date_field.dart';
 import '/Widgets/team_select.dart';
 import '/Widgets/normal_text_field.dart';
@@ -25,7 +26,7 @@ class VideoForm extends StatelessWidget {
       date.text = formatter.format(video.date!);
       set.text = '${video.set!}';
       team.text = video.team!;
-      url.text = video.url!;
+      url.text = video.formattedURL();
     }
     controllerList.add(date);
     controllerList.add(set);
@@ -50,7 +51,7 @@ class VideoForm extends StatelessWidget {
               const SizedBox(height: 10),
               _button(context),
               TextButton(
-                child: Text('キャンセル'),
+                child: const Text('キャンセル'),
                 onPressed: () => Navigator.pop(context),
               ),
             ],
@@ -65,18 +66,41 @@ class VideoForm extends StatelessWidget {
   }
 
   Widget _delButton(BuildContext context){
+    TextEditingController controller = TextEditingController();
     return Visibility(
       visible: _exist(),
       child: InkWell(
         onTap: () {
-          Video.delVideo(doc!.id);
-          Navigator.pop(context);
+          showDialog(
+              context: context,
+              builder: (context){
+                return AlertDialog(
+                  title: const Text('パスワード'),
+                  actions: [
+                    NormalTextField(controller: controller),
+                    TextButton(
+                      child: const Text('ok'),
+                      onPressed: () {
+                        if(controller.text == 'taiga221'){
+                          Video.delVideo(doc!.id);
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                        }else{
+                          Navigator.pop(context);
+                          NormalAlertDialog(context,'パスワードが違います');
+                        }
+                      }
+                    ),
+                  ],
+                );
+              }
+          );
         },
         child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children:[
               Row(
-                children: [
+                children: const [
                   Icon(Icons.delete),
                   Text('削除'),
                 ],
@@ -90,13 +114,13 @@ class VideoForm extends StatelessWidget {
   Widget _button(BuildContext context){
     if(_exist()){
       return ElevatedButton(
-        child: Text('更新'),
+        child: const Text('更新'),
         onPressed: (){
           Video v = Video.readController(controllerList);
           v.updateVideo(doc!.id);
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
+              const SnackBar(
                 content: Text('更新完了'),
               )
           );
@@ -104,7 +128,7 @@ class VideoForm extends StatelessWidget {
       );
     }else{
       return ElevatedButton(
-        child: Text('登録'),
+        child: const Text('登録'),
         onPressed: () async {
           Video v = Video.readController(controllerList);
           await v.addVideo(context);

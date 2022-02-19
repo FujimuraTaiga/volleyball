@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>66451933885-98roap53bk2nns97p1sv0lho7h4eahgc.apps.googleusercontent.com</string>
+	<string>66451933885-esevk4bg09t5gr72rbvqjc5uvdiqnd10.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.66451933885-98roap53bk2nns97p1sv0lho7h4eahgc</string>
+	<string>com.googleusercontent.apps.66451933885-esevk4bg09t5gr72rbvqjc5uvdiqnd10</string>
 	<key>ANDROID_CLIENT_ID</key>
 	<string>66451933885-5ni1v2c2h575ohsonihqghrborjusdrp.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
@@ -15,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.application.sitVolleyballApp</string>
+	<string>app.sit.volleyball</string>
 	<key>PROJECT_ID</key>
 	<string>sit-volleyball-game-videos</string>
 	<key>STORAGE_BUCKET</key>
@@ -31,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:66451933885:ios:8dc7e5ab8ad84475d9c5d4</string>
+	<string>1:66451933885:ios:46bdde7971343288d9c5d4</string>
 </dict>
 </plist>

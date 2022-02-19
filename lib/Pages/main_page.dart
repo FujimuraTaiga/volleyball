@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:sit_volleyball_app/Pages/Setting/setting_page.dart';
-import 'package:sit_volleyball_app/Pages/Video/video_page_after.dart';
-import 'video/video_page.dart';
-import 'Team/team_page.dart';
+import 'package:provider/provider.dart';
+import 'package:sit_volleyball_app/Entity/user.dart';
+import 'package:sit_volleyball_app/Pages/User/user_page.dart';
+import 'package:sit_volleyball_app/Pages/Video/video_page.dart';
+import 'package:sit_volleyball_app/Pages/Team/team_page.dart';
+import 'package:sit_volleyball_app/Pages/Setting/drawer_menu.dart';
 
 class MainPage extends StatefulWidget {
-
   const MainPage({Key? key}) : super(key: key);
 
   @override
@@ -18,14 +19,18 @@ class _MainPageState extends State<MainPage> {
   final List<Widget> _page = const [
     VideoPage(),
     TeamPage(),
-    SettingPage(),
+    UserPage(),
   ];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(child: _page[_selectedIndex]),
-      bottomNavigationBar: _bottom(),
+
+    final user = UserOperation();
+
+    return MultiProvider(
+      providers: [
+
+      ]
     );
   }
 

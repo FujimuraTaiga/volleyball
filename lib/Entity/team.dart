@@ -1,6 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:sit_volleyball_app/Entity/user.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+class TeamOperation{
+
+  static final teamDB = FirebaseFirestore.instance.collection('Team');
+
+  static Future<void> createTeam(String teamId, String teamName,UserData userData) async {
+    await teamDB.add({
+      'id'    : teamId,
+      'name'  : teamName,
+    });
+    await teamDB.doc().collection('Member').add({
+      'id'    : userData.id,
+      'name'  : userData.name,
+    });
+  }
+}
 
 class Team{
   String? name;

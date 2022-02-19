@@ -62,7 +62,7 @@ class VideoPageState extends State<VideoPage>{
       children: [
         _dropdownButton(),
         IconButton(
-          icon: Icon(Icons.add),
+          icon: const Icon(Icons.add),
           onPressed: (){
             Navigator.push(
               context,

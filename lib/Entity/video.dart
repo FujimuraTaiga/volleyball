@@ -10,21 +10,22 @@ class Video{
   DateTime? date;
   int? set;
   String? team;
-  String? url;
+  String? id;
   DateFormat formatter = DateFormat('yyyy/MM/dd');
 
   Video.readDoc(DocumentSnapshot doc){
     date = doc[VideoField.date].toDate();
     set = doc[VideoField.set];
     team = doc[VideoField.team];
-    url = doc[VideoField.url];
+    id = doc[VideoField.id];
+    formatURL();
   }
 
   Video.readController(List list){
     date = DateTime.parse(list[0].text);
     set = int.parse(list[1].text);
     team = list[2].text;
-    url = list[3].text;
+    id = list[3].text;
   }
 
   Map<String,dynamic> toMap(){
@@ -32,7 +33,7 @@ class Video{
       VideoField.date: date,
       VideoField.set: set,
       VideoField.team: team,
-      VideoField.url: url,
+      VideoField.id: id,
     };
   }
 
@@ -44,7 +45,7 @@ class Video{
     bool date = this.date == null;
     bool set = this.set == null;
     bool team = this.team == '';
-    bool url = this.url == '';
+    bool url = id == '';
 
     if (date||set||team||url) {
       return true;
@@ -63,19 +64,27 @@ class Video{
   }
 
   void formatURL(){
-    if (url!.contains('&feature=youtu.be')) {
-      url = url!.substring(0, url!.length - 17);
-    } else if (url!.contains('https://youtu.be/')) {
-      url = 'https://www.youtube.com/watch?v=${url!.substring(17)}';
+    if (id!.contains('youtu.be')) {
+      id = id!.split('youtu.be/')[1];
+    } else if (id!.contains('watch?v=')) {
+      id = id!.split('v=')[1];
     }
   }
 
   Image image() {
-    return Image.network('https://img.youtube.com/vi/${url!.substring(32)}/mqdefault.jpg');
+    return Image.network('https://img.youtube.com/vi/${id!}/mqdefault.jpg');
+  }
+
+  String formattedURL(){
+    return 'https://www.youtube.com/watch?v=${id!}';
   }
 
   bool validURL(){
-    return Uri.parse(url!).isAbsolute;
+    String url = formattedURL();
+    if(url.contains('https://www.youtube.com/watch?v=')||url.contains('https://youtu.be/')){
+      return true;
+    }
+    return Uri.parse(url).isAbsolute;
   }
 
   Future<void> addVideo(BuildContext context) async {
@@ -85,7 +94,7 @@ class Video{
         await newDocument.set(toMap());
         Navigator.pop(context);
         ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
+            const SnackBar(
               content: Text('登録完了'),
             )
         );
@@ -106,12 +115,13 @@ class Video{
       VideoField.date: date,
       VideoField.set: set,
       VideoField.team: team,
-      VideoField.url: url,
+      VideoField.id: id,
     });
   }
 
   void launchURL() async {
-    await canLaunch(url!) ? await launch(url!,forceSafariVC: false,forceWebView: false) : throw 'Could not Launch URL';
+    String url = formattedURL();
+    await canLaunch(url) ? await launch(url,forceSafariVC: false,forceWebView: false) : throw 'Could not Launch URL';
   }
 }
 
@@ -119,5 +129,5 @@ class VideoField{
   static const date = 'date';
   static const set = 'set';
   static const team = 'team';
-  static const url = 'url';
+  static const id = 'url';
 }
