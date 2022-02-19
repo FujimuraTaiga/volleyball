@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sit_volleyball_app/Entity/user.dart';
 import 'package:sit_volleyball_app/Widgets/normal_alert_dialog.dart';
 
@@ -13,6 +14,9 @@ class MailRegisterButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final userData = Provider.of<UserOperation>(context);
+
     return ElevatedButton(
         child: const Text('登録'),
         onPressed: () async {
@@ -22,7 +26,7 @@ class MailRegisterButton extends StatelessWidget {
               email: mailController.text,
               password: passController.text,
             );
-            UserOperation.addUser(result.user!.uid, 'UserName', '');
+            await userData.addUser(result.user!.uid, 'UserName', '');
 
             Navigator.popUntil(context, (route) => route.isFirst);
             ScaffoldMessenger.of(context).showSnackBar(

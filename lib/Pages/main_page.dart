@@ -29,8 +29,14 @@ class _MainPageState extends State<MainPage> {
 
     return MultiProvider(
       providers: [
-
-      ]
+        ChangeNotifierProvider.value(value: user),
+      ],
+      child: Scaffold(
+        appBar: AppBar(),
+        drawer: const DrawerMenu(),
+        body: _page[_selectedIndex],
+        bottomNavigationBar: _bottom(),
+      ),
     );
   }
 

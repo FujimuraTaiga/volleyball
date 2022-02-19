@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 import 'package:sit_volleyball_app/Entity/user.dart';
 
 class DeleteAccountDialog extends StatelessWidget {
@@ -8,6 +9,9 @@ class DeleteAccountDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final userData = Provider.of<UserOperation>(context);
+
     return AlertDialog(
       title: const Text('本当に削除しますか？'),
       actions: [
@@ -22,7 +26,7 @@ class DeleteAccountDialog extends StatelessWidget {
                 child: const Text('削除'),
                 onPressed: () async {
                   final user = FirebaseAuth.instance.currentUser!;
-                  await UserOperation.delUser(user.uid);
+                  await userData.delUser(user.uid);
                   await user.delete();
                   Navigator.pop(context);
                 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sit_volleyball_app/Pages/Setting/log_out_button.dart';
+import 'package:sit_volleyball_app/Pages/Setting/Widgets/log_out_button.dart';
 
 class TeamForm extends StatelessWidget {
 

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:sit_volleyball_app/Const/widget_size.dart';
 import 'package:sit_volleyball_app/Entity/user.dart';
@@ -9,6 +10,9 @@ class AppleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final userData = Provider.of<UserOperation>(context);
+
     return SizedBox(
       height: WidgetSize.signInButton.height,
       width: WidgetSize.signInButton.width,
@@ -28,7 +32,7 @@ class AppleButton extends StatelessWidget {
           );
 
           final result = await FirebaseAuth.instance.signInWithCredential(credential);
-          UserOperation.addUser(result.user!.uid,'UserName','');
+          await userData.addUser(result.user!.uid,'UserName','');
         }
       ),
     );
