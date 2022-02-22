@@ -1,49 +1,44 @@
 import 'package:flutter/material.dart';
-import 'package:sit_volleyball_app/Const/widget_size.dart';
+import 'package:provider/provider.dart';
+import 'package:sit_volleyball_app/Entity/user.dart';
+
+import 'package:sit_volleyball_app/Pages/User/user_name.dart';
+import 'package:sit_volleyball_app/Pages/User/user_id.dart';
+import 'package:sit_volleyball_app/Pages/User/user_image.dart';
+import 'package:sit_volleyball_app/Pages/User/user_profile_form.dart';
 
 class UserPage extends StatelessWidget {
-
   const UserPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserOperation>(context);
+    user.find();
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-          UserImage(),
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              IconButton(
+                icon: const Icon(Icons.settings),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => UserProfileForm()));
+                },
+              ),
+            ],
+          ),
+          const UserImage(),
+          const SizedBox(height: 20.0),
+          const UserName(),
+          const SizedBox(height: 20.0),
+          CopyableID(user.userData.id),
         ],
       ),
     );
   }
 }
-
-class UserImage extends StatelessWidget {
-  const UserImage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: WidgetSize.userImageInMyPage.width,
-      height: WidgetSize.userImageInMyPage.height,
-      decoration: const BoxDecoration(
-        shape: BoxShape.circle,
-        image: DecorationImage(
-            fit: BoxFit.fill,
-            image: AssetImage('assets/images/volleyball.png'),
-        ),
-      ),
-    );
-  }
-}
-
-class UserName extends StatelessWidget {
-
-  const UserName({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Text('');
-  }
-}
-

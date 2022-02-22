@@ -10,31 +10,29 @@ class AppleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final userData = Provider.of<UserOperation>(context);
 
     return SizedBox(
       height: WidgetSize.signInButton.height,
       width: WidgetSize.signInButton.width,
       child: SignInWithAppleButton(
-        text: 'Appleでサインイン',
-        onPressed: () async {
-          final appleCredential = await SignInWithApple.getAppleIDCredential(
-            scopes: [
-              AppleIDAuthorizationScopes.email,
-              AppleIDAuthorizationScopes.fullName,
-            ],
-          );
-          OAuthProvider oAuthProvider = OAuthProvider('apple.com');
-          final credential = oAuthProvider.credential(
-            idToken: appleCredential.identityToken,
-            accessToken: appleCredential.authorizationCode,
-          );
+          text: 'Appleでサインイン',
+          onPressed: () async {
+            final appleCredential = await SignInWithApple.getAppleIDCredential(
+              scopes: [
+                AppleIDAuthorizationScopes.email,
+                AppleIDAuthorizationScopes.fullName,
+              ],
+            );
+            OAuthProvider oAuthProvider = OAuthProvider('apple.com');
+            final credential = oAuthProvider.credential(
+              idToken: appleCredential.identityToken,
+              accessToken: appleCredential.authorizationCode,
+            );
 
-          final result = await FirebaseAuth.instance.signInWithCredential(credential);
-          await userData.add(result.user!.uid,'UserName','');
-        }
-      ),
+            await FirebaseAuth.instance.signInWithCredential(credential);
+            await userData.add('UserName', '');
+          }),
     );
   }
 }

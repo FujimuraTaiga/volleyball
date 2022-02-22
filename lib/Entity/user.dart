@@ -1,75 +1,83 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class UserData{
+class UserData {
   String id;
   String name;
   String image;
-  Map<String,String> team;
+  List<Map<String, String>> team;
 
-  UserData(this.id,this.name,this.image,this.team);
+  UserData(this.id, this.name, this.image, this.team);
 }
 
-class UserOperation extends ChangeNotifier{
-
+class UserOperation extends ChangeNotifier {
   final userDB = FirebaseFirestore.instance.collection('User');
 
-  final userData = UserData('','','',{});
+  final userData = UserData('', '', '', [{}]);
 
-  Future<void> add(String id,String name,String image) async {
-    if(userData.id == ''){
-      await userDB.add({
-        'id'    : id,
-        'name'  : name,
-        'image' : image,
-      });
-      await userDB.doc().collection('Team').add({});
-    }
+  Future<void> add(String name, String image) async {
+    final user = FirebaseAuth.instance.currentUser!;
+    await userDB.doc(user.uid).set({
+      'id': user.uid,
+      'name': name,
+      'image': image,
+    });
   }
 
-  Future<void> findById(String userId) async {
-    await userDB.get().then((QuerySnapshot querySnapshot){
-      for(var doc in querySnapshot.docs){
-        if(doc['id']! == userId){
-          userData.id = doc['id'];
-          userData.name = doc['name'];
-          userData.image = doc['image'];
-        }
-      }
-    });
-    await userDB.doc().collection('Team').get().then((QuerySnapshot querySnapshot){
-      for(var doc in querySnapshot.docs){
-        userData.team.addAll({
-          'id'    : doc['id'],
-          'name'  : doc['name'],
+  Future<void> find() async {
+    final userId = FirebaseAuth.instance.currentUser!.uid;
+    await userDB.doc(userId).get().then(((DocumentSnapshot doc) {
+      userData.id = doc['id'];
+      userData.name = doc['name'];
+      userData.image = doc['image'];
+    }));
+    await userDB
+        .doc(userId)
+        .collection('Team')
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      for (var doc in querySnapshot.docs) {
+        userData.team.add({
+          'id': doc.get('id'),
+          'name': doc.get('name'),
         });
       }
     });
     notifyListeners();
   }
 
-  Future<void> delete(String userId) async {
-    final userPath = await userDB.get().then((QuerySnapshot querySnapShot) {
-      for(var doc in querySnapShot.docs){
-        String path = doc.id;
-        if(doc['id'] == userId){
-          return path;
-        }
-      }
+  Future<void> updateName(String name) async {
+    final user = FirebaseAuth.instance.currentUser!;
+    await userDB.doc(user.uid).update({
+      'name': name,
     });
-    await userDB.doc(userPath).delete();
     notifyListeners();
   }
 
-  Future<void> addTeam(String userId, String teamId,String teamName) async {
-    await userDB.doc(userId).collection('Team').add({
-      'id' : teamId,
-      'team' : teamName,
+  Future<void> delete() async {
+    final user = FirebaseAuth.instance.currentUser!;
+    await userDB.doc(user.uid).collection('Team').doc().delete();
+    await userDB.doc(user.uid).delete();
+    await user.delete();
+  }
+
+  Future<void> addTeam(String teamId, String teamName) async {
+    final userId = FirebaseAuth.instance.currentUser!.uid;
+    await userDB.doc(userId).collection('Team').doc(teamId).set({
+      'id': teamId,
+      'name': teamName,
+    });
+    userData.team.add({
+      'id': teamId,
+      'name': teamName,
     });
   }
 
-  Future<void> delTeam(String userId, String teamId) async {
+  Future<void> delTeam(String teamId) async {
+    final userId = FirebaseAuth.instance.currentUser!.uid;
     await userDB.doc(userId).collection('Team').doc(teamId).delete();
+    userData.team.removeWhere((element) => 'id' == teamId);
+    notifyListeners();
   }
-
 }

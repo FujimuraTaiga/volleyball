@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:sit_volleyball_app/Pages/Setting/Widgets/delete_account_button.dart';
-import 'package:sit_volleyball_app/Pages/Setting/Widgets/log_out_button.dart';
+import 'package:sit_volleyball_app/Pages/Drawer/Widgets/delete_account_button.dart';
+import 'package:sit_volleyball_app/Pages/Drawer/Widgets/log_out_button.dart';
 
-class DrawerMenu extends StatelessWidget{
-
+class DrawerMenu extends StatelessWidget {
   const DrawerMenu({Key? key}) : super(key: key);
 
   @override
@@ -19,5 +18,4 @@ class DrawerMenu extends StatelessWidget{
       ),
     );
   }
-
 }

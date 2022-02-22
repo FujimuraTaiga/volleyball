@@ -10,7 +10,7 @@ class VideoPageAfter extends StatefulWidget {
 }
 
 class _VideoPageAfterState extends State<VideoPageAfter> {
-  String _selected = '芝浦工大';
+  final String _selected = '芝浦工大';
 
   @override
   Widget build(BuildContext context) {
@@ -25,24 +25,24 @@ class _VideoPageAfterState extends State<VideoPageAfter> {
     );
   }
 
-  Widget _drawer(){
-    return Drawer();
+  Widget _drawer() {
+    return const Drawer();
   }
 
-  Widget _videoList(){
+  Widget _videoList() {
     return StreamBuilder(
       stream: FirebaseFirestore.instance
           .collection('videos')
-          .where('team',isEqualTo: _selected)
-          .orderBy('date',descending: true)
-          .orderBy('set',descending: true)
+          .where('team', isEqualTo: _selected)
+          .orderBy('date', descending: true)
+          .orderBy('set', descending: true)
           .snapshots(),
-      builder: (context, AsyncSnapshot<QuerySnapshot> snapshot){
-        if(snapshot.connectionState == ConnectionState.waiting){
+      builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
-        }else{
+        } else {
           return ListView(
-            children: snapshot.data!.docs.map((DocumentSnapshot doc){
+            children: snapshot.data!.docs.map((DocumentSnapshot doc) {
               return VideoCard(doc: doc);
             }).toList(),
           );

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sit_volleyball_app/Pages/Setting/Widgets/delete_account_dialog.dart';
+import 'package:sit_volleyball_app/Pages/Drawer/Widgets/delete_account_dialog.dart';
 
 class DeleteAccountButton extends StatelessWidget {
-
   const DeleteAccountButton({Key? key}) : super(key: key);
 
   @override

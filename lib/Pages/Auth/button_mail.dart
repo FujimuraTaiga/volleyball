@@ -20,7 +20,7 @@ class MailButton extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
+              const Icon(
                 Icons.mail,
                 color: Colors.black,
               ),
@@ -35,12 +35,9 @@ class MailButton extends StatelessWidget {
             ],
           ),
           onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const MailLoginPage())
-            );
-          }
-      ),
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const MailLoginPage()));
+          }),
     );
   }
 }

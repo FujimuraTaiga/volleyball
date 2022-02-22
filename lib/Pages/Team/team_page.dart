@@ -1,72 +1,49 @@
-import 'dart:core';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:sit_volleyball_app/Entity/team.dart';
+import 'package:provider/provider.dart';
+import 'package:sit_volleyball_app/Entity/user.dart';
 import 'package:sit_volleyball_app/Pages/Team/team_form.dart';
+import 'package:sit_volleyball_app/Pages/User/user_id.dart';
 
 class TeamPage extends StatelessWidget {
-
   const TeamPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserOperation>(context);
+    user.find();
+
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: Column(
         children: [
           _header(context),
-          Expanded(child: _teamList(context)),
+          for (Map<String, String> team in user.userData.team) ...{
+            Card(
+              child: Row(
+                children: [
+                  Text(team['name']!),
+                  CopyableID(team['id']!),
+                ],
+              ),
+            )
+          }
         ],
       ),
     );
   }
 
-  Widget _header(BuildContext context){
+  Widget _header(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         IconButton(
           icon: const Icon(Icons.add),
-          onPressed: (){
+          onPressed: () {
             Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => TeamForm())
-            );
+                context, MaterialPageRoute(builder: (context) => TeamForm()));
           },
         )
       ],
-    );
-  }
-
-  Widget _teamList(BuildContext context){
-    return StreamBuilder(
-      stream: FirebaseFirestore.instance.collection('team').snapshots(),
-      builder: (context,AsyncSnapshot<QuerySnapshot> snapshot){
-        if(snapshot.connectionState == ConnectionState.waiting){
-          return const Center(child: CircularProgressIndicator(),);
-        }else{
-          return ListView(
-            children: snapshot.data!.docs.map((DocumentSnapshot doc){
-              Team team = Team.readDoc(doc);
-              return InkWell(
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const TeamForm())
-                ),
-                child: Card(
-                  child: Text(
-                    team.name!,
-                    style: const TextStyle(
-                      fontSize: 20,
-                    ),
-                  ),
-                ),
-              );
-            }).toList()
-          );
-        }
-      },
     );
   }
 }

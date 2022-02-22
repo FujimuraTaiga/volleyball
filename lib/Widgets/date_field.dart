@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class DateField extends StatefulWidget {
-
   final TextEditingController controller;
 
-  DateField(this.controller);
+  const DateField(this.controller, {Key? key}) : super(key: key);
 
+  @override
   DateFieldState createState() => DateFieldState();
 }
 
 class DateFieldState extends State<DateField> {
-  DateFormat formatter = new DateFormat('yyyy-MM-dd');
+  DateFormat formatter = DateFormat('yyyy-MM-dd');
   DateTime date = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
-    if(widget.controller.text != ''){
+    if (widget.controller.text != '') {
       date = DateTime.parse(widget.controller.text);
     }
 
@@ -24,15 +24,15 @@ class DateFieldState extends State<DateField> {
       controller: widget.controller,
       decoration: decoration(),
       onTap: () async {
-        FocusScope.of(context).requestFocus(new FocusNode());
+        FocusScope.of(context).requestFocus(FocusNode());
         final DateTime? pickedDate = await showDatePicker(
           context: context,
           initialDate: date,
-          firstDate: new DateTime(2018),
-          lastDate: new DateTime.now().add(new Duration(days: 360)),
+          firstDate: DateTime(2018),
+          lastDate: DateTime.now().add(const Duration(days: 360)),
         );
 
-        if(pickedDate != null) {
+        if (pickedDate != null) {
           setState(() => date = pickedDate);
           widget.controller.text = formatter.format(date);
         }
@@ -40,8 +40,8 @@ class DateFieldState extends State<DateField> {
     );
   }
 
-  InputDecoration decoration(){
-    return InputDecoration(
+  InputDecoration decoration() {
+    return const InputDecoration(
       labelText: 'date',
       border: OutlineInputBorder(),
     );

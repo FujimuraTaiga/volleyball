@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sit_volleyball_app/Pages/User/user_page.dart';
 import 'package:sit_volleyball_app/Pages/Video/video_page.dart';
 import 'package:sit_volleyball_app/Pages/Team/team_page.dart';
-import 'package:sit_volleyball_app/Pages/Setting/drawer_menu.dart';
+import 'package:sit_volleyball_app/Pages/Drawer/drawer_menu.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -47,11 +47,11 @@ class _MainPageState extends State<MainPage> {
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.paste),
-          label: 'team',
+          label: 'Team',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.settings),
-          label: 'setting',
+          icon: Icon(Icons.account_circle),
+          label: 'MyPage',
         ),
       ],
     );
