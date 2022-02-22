@@ -26,7 +26,7 @@ class MailRegisterButton extends StatelessWidget {
               email: mailController.text,
               password: passController.text,
             );
-            await userData.addUser(result.user!.uid, 'UserName', '');
+            await userData.add(result.user!.uid, 'UserName', '');
 
             Navigator.popUntil(context, (route) => route.isFirst);
             ScaffoldMessenger.of(context).showSnackBar(

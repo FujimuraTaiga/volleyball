@@ -32,7 +32,7 @@ class AppleButton extends StatelessWidget {
           );
 
           final result = await FirebaseAuth.instance.signInWithCredential(credential);
-          await userData.addUser(result.user!.uid,'UserName','');
+          await userData.add(result.user!.uid,'UserName','');
         }
       ),
     );

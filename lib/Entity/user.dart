@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class UserData{
   String id;
@@ -16,7 +16,7 @@ class UserOperation extends ChangeNotifier{
 
   final userData = UserData('','','',{});
 
-  Future<void> addUser(String id,String name,String image) async {
+  Future<void> add(String id,String name,String image) async {
     if(userData.id == ''){
       await userDB.add({
         'id'    : id,
@@ -48,7 +48,7 @@ class UserOperation extends ChangeNotifier{
     notifyListeners();
   }
 
-  Future<void> delUser(String userId) async {
+  Future<void> delete(String userId) async {
     final userPath = await userDB.get().then((QuerySnapshot querySnapShot) {
       for(var doc in querySnapShot.docs){
         String path = doc.id;
@@ -58,6 +58,7 @@ class UserOperation extends ChangeNotifier{
       }
     });
     await userDB.doc(userPath).delete();
+    notifyListeners();
   }
 
   Future<void> addTeam(String userId, String teamId,String teamName) async {

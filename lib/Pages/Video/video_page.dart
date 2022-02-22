@@ -5,15 +5,13 @@ import '/Entity/team.dart';
 import 'video_card.dart';
 
 class VideoPage extends StatefulWidget {
-  
   const VideoPage({Key? key}) : super(key: key);
 
   @override
   VideoPageState createState() => VideoPageState();
 }
 
-class VideoPageState extends State<VideoPage>{
-
+class VideoPageState extends State<VideoPage> {
   String _selected = '芝浦工大';
 
   @override
@@ -30,21 +28,23 @@ class VideoPageState extends State<VideoPage>{
     );
   }
 
-  Widget _dropdownButton(){
+  Widget _dropdownButton() {
     return StreamBuilder(
       stream: FirebaseFirestore.instance.collection('team').snapshots(),
-      builder: (context,AsyncSnapshot<QuerySnapshot> snapshot){
-        if(snapshot.connectionState == ConnectionState.waiting){
-          return DropdownButton(items: const [],);
+      builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return DropdownButton(
+            items: const [],
+          );
         }
         return DropdownButton(
           value: _selected,
-          onChanged: (value){
+          onChanged: (value) {
             setState(() {
               _selected = value as String;
             });
           },
-          items: snapshot.data!.docs.map((DocumentSnapshot doc){
+          items: snapshot.data!.docs.map((DocumentSnapshot doc) {
             Team team = Team.readDoc(doc);
             return DropdownMenuItem(
               child: Text(team.name!),
@@ -56,38 +56,36 @@ class VideoPageState extends State<VideoPage>{
     );
   }
 
-  Widget _header(){
+  Widget _header() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         _dropdownButton(),
         IconButton(
           icon: const Icon(Icons.add),
-          onPressed: (){
+          onPressed: () {
             Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => VideoForm())
-            );
+                context, MaterialPageRoute(builder: (context) => VideoForm()));
           },
         ),
       ],
     );
   }
 
-  Widget _videoList(){
+  Widget _videoList() {
     return StreamBuilder(
       stream: FirebaseFirestore.instance
           .collection('videos')
-          .where('team',isEqualTo: _selected)
-          .orderBy('date',descending: true)
-          .orderBy('set',descending: true)
+          .where('team', isEqualTo: _selected)
+          .orderBy('date', descending: true)
+          .orderBy('set', descending: true)
           .snapshots(),
-      builder: (context, AsyncSnapshot<QuerySnapshot> snapshot){
-        if(snapshot.connectionState == ConnectionState.waiting){
+      builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
-        }else{
+        } else {
           return ListView(
-            children: snapshot.data!.docs.map((DocumentSnapshot doc){
+            children: snapshot.data!.docs.map((DocumentSnapshot doc) {
               return VideoCard(doc: doc);
             }).toList(),
           );

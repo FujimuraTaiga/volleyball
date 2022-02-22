@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:sit_volleyball_app/Entity/user.dart';
 import 'package:sit_volleyball_app/Pages/User/user_page.dart';
 import 'package:sit_volleyball_app/Pages/Video/video_page.dart';
 import 'package:sit_volleyball_app/Pages/Team/team_page.dart';
@@ -14,37 +12,35 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-
   int _selectedIndex = 0;
+
   final List<Widget> _page = const [
     VideoPage(),
     TeamPage(),
     UserPage(),
   ];
 
+  void setIndex(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-
-    final user = UserOperation();
-
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider.value(value: user),
-      ],
-      child: Scaffold(
-        appBar: AppBar(),
-        drawer: const DrawerMenu(),
-        body: _page[_selectedIndex],
-        bottomNavigationBar: _bottom(),
-      ),
+    return Scaffold(
+      appBar: AppBar(),
+      drawer: const DrawerMenu(),
+      body: _page[_selectedIndex],
+      bottomNavigationBar: _bottom(),
     );
   }
 
-  Widget _bottom(){
+  Widget _bottom() {
     return BottomNavigationBar(
       currentIndex: _selectedIndex,
-      onTap: _onItemTapped,
-      items: const <BottomNavigationBarItem> [
+      onTap: setIndex,
+      items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(Icons.video_collection),
           label: 'Video',
@@ -55,15 +51,9 @@ class _MainPageState extends State<MainPage> {
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.settings),
-          label: 'setting'
+          label: 'setting',
         ),
       ],
     );
-  }
-
-  void _onItemTapped(int index){
-    setState((){
-      _selectedIndex = index;
-    });
   }
 }

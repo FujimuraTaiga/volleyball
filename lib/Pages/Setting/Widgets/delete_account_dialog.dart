@@ -26,7 +26,7 @@ class DeleteAccountDialog extends StatelessWidget {
                 child: const Text('削除'),
                 onPressed: () async {
                   final user = FirebaseAuth.instance.currentUser!;
-                  await userData.delUser(user.uid);
+                  await userData.delete(user.uid);
                   await user.delete();
                   Navigator.pop(context);
                 }
