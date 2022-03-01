@@ -11,9 +11,9 @@ class TeamData {
 }
 
 class TeamOperation {
-  static final teamDB = FirebaseFirestore.instance.collection('Team');
+  final teamDB = FirebaseFirestore.instance.collection('Team');
 
-  static Future<void> createTeam(String teamName, UserData user) async {
+  Future<void> createTeam(String teamName, UserData user) async {
     final team = teamDB.doc();
     team.set({
       'id': team.id,
@@ -26,14 +26,14 @@ class TeamOperation {
     await UserOperation().addTeam(team.id, teamName);
   }
 
-  static Future<void> updateTeam(String teamId, String teamName) async {
+  Future<void> updateTeam(String teamId, String teamName) async {
     await teamDB.doc(teamId).update({
       'id': teamId,
       'name': teamName,
     });
   }
 
-  static Future<TeamData> findTeam(String teamId) async {
+  Future<TeamData> findTeam(String teamId) async {
     final teamData =
         await teamDB.doc(teamId).get().then((DocumentSnapshot doc) {
       return TeamData(doc.id, doc.get('name'), [{}]);
@@ -53,7 +53,7 @@ class TeamOperation {
     return teamData;
   }
 
-  static Future<List> getMember(String teamId) async {
+  Future<List> getMember(String teamId) async {
     final List<Map<String, String>> member = [{}];
     await teamDB
         .doc(teamId)

@@ -24,7 +24,7 @@ class TeamForm extends StatelessWidget {
             ElevatedButton(
               child: const Text('作成'),
               onPressed: () {
-                TeamOperation.createTeam(nameController.text, user.userData);
+                TeamOperation().createTeam(nameController.text, user.userData);
                 Navigator.pop(context);
               },
             ),
