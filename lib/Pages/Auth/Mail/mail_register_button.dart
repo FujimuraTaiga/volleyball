@@ -15,7 +15,7 @@ class MailRegisterButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userData = Provider.of<UserOperation>(context);
+    final userData = Provider.of<UserProvider>(context);
 
     return ElevatedButton(
         child: const Text('登録'),

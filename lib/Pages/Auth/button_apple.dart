@@ -10,7 +10,7 @@ class AppleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userData = Provider.of<UserOperation>(context);
+    final userData = Provider.of<UserProvider>(context);
 
     return SizedBox(
       height: WidgetSize.signInButton.height,

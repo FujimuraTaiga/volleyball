@@ -11,7 +11,7 @@ class UserProfileForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<UserOperation>(context);
+    final user = Provider.of<UserProvider>(context);
 
     return Scaffold(
       appBar: AppBar(),
@@ -25,8 +25,9 @@ class UserProfileForm extends StatelessWidget {
           ),
           ElevatedButton(
             child: const Text('変更'),
-            onPressed: () {
-              user.updateName(nameController.text);
+            onPressed: () async {
+              await user.update(nameController.text, imageController.text);
+              await user.find();
               Navigator.pop(context);
             },
           )
