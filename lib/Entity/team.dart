@@ -13,17 +13,17 @@ class TeamData {
 class TeamOperation {
   final teamDB = FirebaseFirestore.instance.collection('Team');
 
-  Future<void> createTeam(String teamName, UserData user) async {
+  Future<void> createTeam(String teamName, UserProvider user) async {
     final team = teamDB.doc();
     team.set({
       'id': team.id,
       'name': teamName,
     });
-    await teamDB.doc(team.id).collection('Member').doc(user.id).set({
-      'id': user.id,
-      'name': user.name,
+    await teamDB.doc(team.id).collection('Member').doc(user.userData.id).set({
+      'id': user.userData.id,
+      'name': user.userData.name,
     });
-    await UserOperation().addTeam(team.id, teamName);
+    await user.addTeam(team.id, teamName);
   }
 
   Future<void> updateTeam(String teamId, String teamName) async {

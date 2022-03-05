@@ -13,13 +13,11 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-
   const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
-    final user = UserOperation();
+    final user = UserProvider();
 
     return ChangeNotifierProvider.value(
       value: user,
@@ -27,13 +25,13 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         home: StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context,snapshot){
-            if(snapshot.connectionState == ConnectionState.waiting){
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             }
-            if(snapshot.hasData){
+            if (snapshot.hasData) {
               return const MainPage();
-            }else{
+            } else {
               return const LoginPage();
             }
           },
