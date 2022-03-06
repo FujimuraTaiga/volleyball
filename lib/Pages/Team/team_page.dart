@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sit_volleyball_app/Entity/user.dart';
+import 'package:sit_volleyball_app/Pages/Team/team_detail.dart';
 import 'package:sit_volleyball_app/Pages/Team/team_form.dart';
 
 class TeamPage extends StatelessWidget {
@@ -48,11 +49,18 @@ class TeamPageBody extends StatelessWidget {
     final user = Provider.of<UserProvider>(context);
     return Expanded(
       child: ListView.builder(
-        itemCount: user.userTeam.length,
+        itemCount: user.data.team.length,
         itemBuilder: (BuildContext context, int index) {
           return ListTile(
-            title: Text(user.userTeam[index].name),
-            onTap: () {},
+            title: Text(user.data.team[index].name),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => TeamDetail(user.data.team[index].id),
+                ),
+              );
+            },
           );
         },
       ),

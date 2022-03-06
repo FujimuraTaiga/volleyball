@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sit_volleyball_app/Entity/user.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -6,8 +7,14 @@ import 'package:url_launcher/url_launcher.dart';
 class TeamData {
   final String id;
   final String name;
-  final List<Map<String, String>> member;
+  final List<TeamMember> member;
   TeamData(this.id, this.name, this.member);
+}
+
+class TeamMember {
+  String id;
+  String name;
+  TeamMember(this.id, this.name);
 }
 
 class TeamOperation {
@@ -19,11 +26,28 @@ class TeamOperation {
       'id': team.id,
       'name': teamName,
     });
-    await teamDB.doc(team.id).collection('Member').doc(user.userData.id).set({
-      'id': user.userData.id,
-      'name': user.userData.name,
+    await teamDB.doc(team.id).collection('Member').doc(user.data.id).set({
+      'id': user.data.id,
+      'name': user.data.name,
     });
     await user.addTeam(team.id, teamName);
+  }
+
+  Future<TeamData> findTeam(String teamId) async {
+    final teamData =
+        await teamDB.doc(teamId).get().then((DocumentSnapshot doc) {
+      return TeamData(doc.id, doc.get('name'), []);
+    });
+    await teamDB
+        .doc(teamId)
+        .collection('Member')
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      for (var doc in querySnapshot.docs) {
+        teamData.member.add(TeamMember(doc.get('id'), doc.get('name')));
+      }
+    });
+    return teamData;
   }
 
   Future<void> updateTeam(String teamId, String teamName) async {
@@ -33,24 +57,8 @@ class TeamOperation {
     });
   }
 
-  Future<TeamData> findTeam(String teamId) async {
-    final teamData =
-        await teamDB.doc(teamId).get().then((DocumentSnapshot doc) {
-      return TeamData(doc.id, doc.get('name'), [{}]);
-    });
-    await teamDB
-        .doc(teamId)
-        .collection('Member')
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      for (var doc in querySnapshot.docs) {
-        teamData.member.add({
-          'id': doc.get('id'),
-          'name': doc.get('name'),
-        });
-      }
-    });
-    return teamData;
+  Future<void> delTeam(String teamId) async {
+    await teamDB.doc(teamId).delete();
   }
 
   Future<List> getMember(String teamId) async {
@@ -68,6 +76,11 @@ class TeamOperation {
       }
     });
     return member;
+  }
+
+  Future<void> quitTeam(String teamId) async {
+    final userId = FirebaseAuth.instance.currentUser!.uid;
+    await teamDB.doc(teamId).collection('Member').doc(userId).delete();
   }
 }
 

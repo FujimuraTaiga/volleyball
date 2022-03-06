@@ -1,13 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:sit_volleyball_app/Entity/team.dart';
 
 class UserData {
   String id;
   String name;
   String image;
+  List<UserTeam> team;
 
-  UserData(this.id, this.name, this.image);
+  UserData(this.id, this.name, this.image, this.team);
 
   void set(String id, String name, String image) {
     this.id = id;
@@ -26,8 +28,7 @@ class UserProvider extends ChangeNotifier {
   final userDB = FirebaseFirestore.instance.collection('User');
   final user = FirebaseAuth.instance.currentUser!;
 
-  final userData = UserData('', '', '');
-  List<UserTeam> userTeam = [];
+  final data = UserData('', '', '', []);
 
   UserProvider() {
     find();
@@ -40,13 +41,13 @@ class UserProvider extends ChangeNotifier {
       'name': name,
       'image': image,
     });
-    userData.set(user.uid, name, image);
+    data.set(user.uid, name, image);
     notifyListeners();
   }
 
   Future<void> find() async {
     await userDB.doc(user.uid).get().then(((DocumentSnapshot doc) {
-      userData.set(doc.get('id'), doc.get('name'), doc.get('image'));
+      data.set(doc.get('id'), doc.get('name'), doc.get('image'));
     }));
     notifyListeners();
   }
@@ -71,7 +72,7 @@ class UserProvider extends ChangeNotifier {
       'id': teamId,
       'name': teamName,
     });
-    userTeam.add(UserTeam(teamId, teamName));
+    data.team.add(UserTeam(teamId, teamName));
     notifyListeners();
   }
 
@@ -86,13 +87,16 @@ class UserProvider extends ChangeNotifier {
         teams.add(UserTeam(doc.get('id'), doc.get('name')));
       }
     });
-    userTeam = teams;
+    data.team = teams;
     notifyListeners();
   }
 
   Future<void> delTeam(String teamId) async {
     await userDB.doc(user.uid).collection('Team').doc(teamId).delete();
-    userTeam.removeWhere((UserTeam userTeam) => userTeam.id == teamId);
+    data.team.removeWhere((UserTeam userTeam) => userTeam.id == teamId);
+    if (data.team.isEmpty) {
+      TeamOperation().delTeam(teamId);
+    }
     notifyListeners();
   }
 }

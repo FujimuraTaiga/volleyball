@@ -33,9 +33,9 @@ class UserPage extends StatelessWidget {
           ),
           const UserImage(),
           const SizedBox(height: 20.0),
-          const UserName(),
+          UserName(user.data.name),
           const SizedBox(height: 20.0),
-          CopyableID(user.userData.id),
+          CopyableID(user.data.id),
         ],
       ),
     );

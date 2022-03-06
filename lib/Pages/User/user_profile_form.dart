@@ -21,7 +21,7 @@ class UserProfileForm extends StatelessWidget {
           const Text('ユーザー名'),
           NormalTextField(
             controller: nameController,
-            hint: user.userData.name,
+            hint: user.data.name,
           ),
           ElevatedButton(
             child: const Text('変更'),
