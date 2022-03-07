@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sit_volleyball_app/Entity/team.dart';
-import 'package:sit_volleyball_app/Entity/user.dart';
+import 'package:sit_volleyball_app/Providers/User/user_provider.dart';
 import 'package:sit_volleyball_app/Pages/User/user_name.dart';
 
 class TeamDetail extends StatelessWidget {
@@ -19,7 +19,6 @@ class TeamDetail extends StatelessWidget {
             IconButton(
               icon: const Icon(
                 Icons.directions_run,
-                semanticLabel: '退会',
               ),
               onPressed: () {
                 TeamOperation().quitTeam(teamId);

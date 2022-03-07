@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sit_volleyball_app/Entity/user.dart';
+import 'package:sit_volleyball_app/Providers/User/user_provider.dart';
 
 class DeleteAccountDialog extends StatelessWidget {
   const DeleteAccountDialog({Key? key}) : super(key: key);

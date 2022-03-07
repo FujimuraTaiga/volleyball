@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sit_volleyball_app/Entity/team.dart';
-import 'package:sit_volleyball_app/Entity/user.dart';
+import 'package:sit_volleyball_app/Providers/User/user_provider.dart';
 import 'package:sit_volleyball_app/Widgets/normal_text_field.dart';
 
 class TeamForm extends StatelessWidget {
