@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:sit_volleyball_app/Entity/user.dart';
+import 'package:sit_volleyball_app/Providers/User/user_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TeamData {

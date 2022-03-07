@@ -1,31 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:sit_volleyball_app/Entity/team.dart';
-
-class UserData {
-  String id;
-  String name;
-  String image;
-  List<UserTeam> team;
-
-  UserData(this.id, this.name, this.image, this.team);
-
-  void set(String id, String name, String image) {
-    this.id = id;
-    this.name = name;
-    this.image = image;
-  }
-}
-
-class UserTeam {
-  String id;
-  String name;
-  UserTeam(this.id, this.name);
-}
+import 'package:sit_volleyball_app/Providers/User/user_team.dart';
+import 'package:sit_volleyball_app/Providers/User/user_data.dart';
 
 class UserProvider extends ChangeNotifier {
   final userDB = FirebaseFirestore.instance.collection('User');
+  final teamDB = FirebaseFirestore.instance.collection('Team');
   final user = FirebaseAuth.instance.currentUser!;
 
   final data = UserData('', '', '', []);
@@ -95,7 +76,7 @@ class UserProvider extends ChangeNotifier {
     await userDB.doc(user.uid).collection('Team').doc(teamId).delete();
     data.team.removeWhere((UserTeam userTeam) => userTeam.id == teamId);
     if (data.team.isEmpty) {
-      TeamOperation().delTeam(teamId);
+      teamDB.doc(teamId).delete();
     }
     notifyListeners();
   }
