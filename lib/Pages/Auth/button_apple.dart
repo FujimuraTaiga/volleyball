@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:sit_volleyball_app/Const/widget_size.dart';
-import 'package:sit_volleyball_app/Providers/User/user_provider.dart';
+import 'package:sit_volleyball_app/Entity/User/user_provider.dart';
 
 class AppleButton extends StatelessWidget {
   const AppleButton({Key? key}) : super(key: key);
@@ -31,7 +31,7 @@ class AppleButton extends StatelessWidget {
             );
 
             await FirebaseAuth.instance.signInWithCredential(credential);
-            await userData.add('UserName', '');
+            await userData.create('UserName', '');
           }),
     );
   }

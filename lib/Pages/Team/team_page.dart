@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sit_volleyball_app/Providers/User/user_provider.dart';
+import 'package:sit_volleyball_app/Entity/User/user_provider.dart';
 import 'package:sit_volleyball_app/Pages/Team/team_detail.dart';
 import 'package:sit_volleyball_app/Pages/Team/team_form.dart';
 
