@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sit_volleyball_app/Providers/User/user_provider.dart';
+import 'package:sit_volleyball_app/Entity/User/user_provider.dart';
 
 import 'package:sit_volleyball_app/Pages/User/user_name.dart';
 import 'package:sit_volleyball_app/Pages/User/user_id.dart';
@@ -13,6 +13,7 @@ class UserPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context);
+    user.read();
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

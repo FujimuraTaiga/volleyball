@@ -34,7 +34,8 @@ class VideoPageState extends State<VideoPage> {
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return DropdownButton(
-            items: const [],
+            items: null,
+            onChanged: (Object? value) {},
           );
         }
         return DropdownButton(

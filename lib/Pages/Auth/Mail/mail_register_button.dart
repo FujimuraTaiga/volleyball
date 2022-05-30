@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sit_volleyball_app/Providers/User/user_provider.dart';
+import 'package:sit_volleyball_app/Entity/User/user_provider.dart';
 import 'package:sit_volleyball_app/Widgets/normal_alert_dialog.dart';
 
 class MailRegisterButton extends StatelessWidget {
@@ -26,7 +26,7 @@ class MailRegisterButton extends StatelessWidget {
               email: mailController.text,
               password: passController.text,
             );
-            await userData.add('UserName', '');
+            await userData.create('UserName', '');
 
             Navigator.popUntil(context, (route) => route.isFirst);
             ScaffoldMessenger.of(context)

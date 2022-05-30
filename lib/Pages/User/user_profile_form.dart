@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sit_volleyball_app/Providers/User/user_provider.dart';
+import 'package:sit_volleyball_app/Entity/User/user_provider.dart';
 import 'package:sit_volleyball_app/Widgets/normal_text_field.dart';
 
 class UserProfileForm extends StatelessWidget {
@@ -27,7 +27,7 @@ class UserProfileForm extends StatelessWidget {
             child: const Text('変更'),
             onPressed: () async {
               await user.update(nameController.text, imageController.text);
-              await user.find();
+              await user.read();
               Navigator.pop(context);
             },
           )
